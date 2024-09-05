@@ -100,7 +100,6 @@ class MainActivity2 : AppCompatActivity() {
         val spinnerBrand = findViewById<Spinner>(R.id.spinnerBrand)
         val spinnerYear = findViewById<Spinner>(R.id.spinnerYear)
         val spinnerColor = findViewById<Spinner>(R.id.spinnerColor)
-        val spinnerTransmission = findViewById<Spinner>(R.id.spinnerTransmission)
         val spinnerFuelType = findViewById<Spinner>(R.id.spinnerFuelType)
         val spinnerDoors = findViewById<Spinner>(R.id.spinnerDoors)
         val spinnerSeats = findViewById<Spinner>(R.id.spinnerSeats)
@@ -109,7 +108,6 @@ class MainActivity2 : AppCompatActivity() {
             spinnerBrand to brands,
             spinnerYear to years,
             spinnerColor to colors,
-            spinnerTransmission to transmissions,
             spinnerFuelType to fuels,
             spinnerDoors to doors,
             spinnerSeats to seats
@@ -127,7 +125,6 @@ class MainActivity2 : AppCompatActivity() {
         val spinnerBrand = findViewById<Spinner>(R.id.spinnerBrand)
         val spinnerYear = findViewById<Spinner>(R.id.spinnerYear)
         val spinnerColor = findViewById<Spinner>(R.id.spinnerColor)
-        val spinnerTransmission = findViewById<Spinner>(R.id.spinnerTransmission)
         val spinnerFuelType = findViewById<Spinner>(R.id.spinnerFuelType)
         val spinnerDoors = findViewById<Spinner>(R.id.spinnerDoors)
         val spinnerSeats = findViewById<Spinner>(R.id.spinnerSeats)
@@ -137,7 +134,6 @@ class MainActivity2 : AppCompatActivity() {
         val brand = spinnerBrand.selectedItem.toString()
         val year = spinnerYear.selectedItem.toString()
         val color = spinnerColor.selectedItem.toString()
-        val transmission = spinnerTransmission.selectedItem.toString()
         val fuelType = spinnerFuelType.selectedItem.toString()
         val doors = spinnerDoors.selectedItem.toString()
         val seats = spinnerSeats.selectedItem.toString()
@@ -145,7 +141,7 @@ class MainActivity2 : AppCompatActivity() {
         val price = editTextPrice.text.toString()
 
         if (brand == "none" || year == "none" || color == "none" ||
-            transmission == "none" || fuelType == "none" ||
+             fuelType == "none" ||
             doors == "none" || seats == "none" || model.isEmpty() || price.isEmpty()) {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
             return
@@ -177,16 +173,15 @@ class MainActivity2 : AppCompatActivity() {
         // Prepare data for API request
         val client = OkHttpClient()
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("Brand", brand)
-            .addFormDataPart("Model", model)
-            .addFormDataPart("Year", year)
-            .addFormDataPart("Color", color)
-            .addFormDataPart("Price", price)
-            .addFormDataPart("TransmissionType", transmission)
-            .addFormDataPart("FuelType", fuelType)
-            .addFormDataPart("NumberOfDoors", doors)
-            .addFormDataPart("NumberOfSeats", seats)
-            .addFormDataPart("CarImage", file.name, file.asRequestBody("image/jpeg".toMediaTypeOrNull()))
+            .addFormDataPart("brand", brand)
+            .addFormDataPart("model", model)
+            .addFormDataPart("year", year)
+            .addFormDataPart("color", color)
+            .addFormDataPart("price", price)
+            .addFormDataPart("fuel_type", fuelType)
+            .addFormDataPart("doors", doors)
+            .addFormDataPart("seats", seats)
+            .addFormDataPart("image", file.name, file.asRequestBody("image/jpeg".toMediaTypeOrNull()))
             .build()
         Log.d("RequestBody", requestBody.toString())
         val url = getString(R.string.root_url) + getString(R.string.insertdata)
@@ -210,7 +205,7 @@ class MainActivity2 : AppCompatActivity() {
                         val intent = Intent(this@MainActivity2, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this@MainActivity2, "Failed to submit data", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity2, "Failed to submit data with response code: ${response.code}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -17,7 +17,7 @@ fun String?.toImageUrl(context: Context): String? {
     return this?.takeIf { !it.contains("*") }?.let {
         val rootUrl = context.getString(R.string.root_url)
         val imgPath = context.getString(R.string.img)
-        "$rootUrl$imgPath$it"
+        "$rootUrl$it"
     }
 }
 
@@ -26,23 +26,22 @@ class CarAdapter(private var cars: List<Car>) : RecyclerView.Adapter<CarAdapter.
 
     inner class CarViewHolder(private val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(car: Car) {
-            binding.textBrand.text = "Brand: ${car.Brand}"
-            binding.textModel.text = "Model: ${car.Model}"
-            binding.textYear.text = "Year: ${car.Year}"
-            binding.textColor.text = "Color: ${car.Color}"
-            binding.textPrice.text = "Price: ${car.Price}"
-            binding.textTransmissionType.text = "Transmission Type: ${car.TransmissionType}"
-            binding.textFuelType.text = "Fuel Type: ${car.FuelType}"
-            binding.textNumberOfDoors.text = "Number of Doors: ${car.NumberOfDoors}"
-            binding.textNumberOfSeats.text = "Number of Seats: ${car.NumberOfSeats}"
+            binding.textBrand.text = "Brand: ${car.brand}"
+            binding.textModel.text = "Model: ${car.model}"
+            binding.textYear.text = "Year: ${car.year}"
+            binding.textColor.text = "Color: ${car.color}"
+            binding.textPrice.text = "Price: ${car.price}"
+            binding.textFuelType.text = "Fuel Type: ${car.fuel_type}"
+            binding.textNumberOfDoors.text = "Number of Doors: ${car.doors}"
+            binding.textNumberOfSeats.text = "Number of Seats: ${car.seats}"
 
-            val imageUrl = car.CarImage.toImageUrl(binding.root.context)
+            val imageUrl = car.image_url.toImageUrl(binding.root.context)
             Log.d("CarAdapter", "Loading image from URL: $imageUrl")
 
             Glide.with(binding.carImage.context)
                 .load(imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.pexels) // Ensure this image exists
+                .placeholder(R.drawable.ic_launcher_background) // Ensure this image exists
                 .error(R.drawable.ic_launcher_background) // Ensure this image exists
                 .into(binding.carImage)
         }
@@ -85,3 +84,5 @@ class CarDiffCallback(
         return oldList[oldItemPosition] == newList[newItemPosition]
     }
 }
+
+// Ensure all classes and functions are properly closed and no stray code is outside
