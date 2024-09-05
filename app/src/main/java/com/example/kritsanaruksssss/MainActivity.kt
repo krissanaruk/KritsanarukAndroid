@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         carAdapter = CarAdapter(emptyList()) // Initialize with empty list
         recyclerView.adapter = carAdapter
-
+//
         // Handle edge-to-edge layout
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
